@@ -1,8 +1,9 @@
 
+using Unity.Netcode;
 using UnityEngine;
 
 
-public class GameController : MonoBehaviour
+public class GameDataController : NetworkBehaviour
 {
 
     [SerializeField]
@@ -14,8 +15,10 @@ public class GameController : MonoBehaviour
     public void StartGame()
     {
         //instanciate enemy
-        Instantiate(enemyPrefab, enemySpawnPoint.position, Quaternion.identity);
+        GameObject enemy = Instantiate(enemyPrefab, enemySpawnPoint.position, Quaternion.identity);
+        enemy.GetComponent<NetworkObject>().Spawn();
         //Make it move / attack
         //
     }
+
 }

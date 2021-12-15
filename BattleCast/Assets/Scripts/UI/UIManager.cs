@@ -3,8 +3,12 @@ using UnityEngine.UI;
 using UnityEngine;
 using Unity.Netcode;
 
-public class UIManager : MonoBehaviour
+public class UIManager : NetworkBehaviour
 {
+
+    [SerializeField]
+    private GameObject gameDataController;
+
     [SerializeField]
     private Button startServerButton;
 
@@ -13,6 +17,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Button startClientButton;
+
+    [SerializeField]
+    private Button startGameButton;
 
     [SerializeField]
     private TextMeshProUGUI playersInGameText;
@@ -28,6 +35,7 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
+
         //Setting all the buttons actions
 
         startHostButton.onClick.AddListener(() =>
@@ -35,6 +43,7 @@ public class UIManager : MonoBehaviour
             if (NetworkManager.Singleton.StartHost())
             {
                 Debug.Log("Host started...");
+                startGameButton.gameObject.SetActive(true);
             } else
             {
                 Debug.Log("Host could not be started...");
@@ -46,6 +55,7 @@ public class UIManager : MonoBehaviour
             if (NetworkManager.Singleton.StartServer())
             {
                 Debug.Log("Server started...");
+                startGameButton.gameObject.SetActive(true);
             }
             else
             {
@@ -64,6 +74,15 @@ public class UIManager : MonoBehaviour
                 Debug.Log("Client could not be started...");
             }
         });
+
+        startGameButton.onClick.AddListener(() =>
+        {
+             gameDataController.GetComponent<GameDataController>().StartGame();
+            
+        });
+
+
+        startGameButton.gameObject.SetActive(false);
 
 
     }
