@@ -78,7 +78,8 @@ public class UIManager : NetworkBehaviour
         startGameButton.onClick.AddListener(() =>
         {
              gameDataController.GetComponent<GameDataController>().StartGame();
-            
+             startGameButton.gameObject.SetActive(false);
+
         });
 
 
