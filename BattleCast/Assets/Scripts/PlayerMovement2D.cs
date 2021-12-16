@@ -18,6 +18,9 @@ public class PlayerMovement2D : NetworkBehaviour
     [SerializeField]
     private NetworkVariable<float> XYPosition = new NetworkVariable<float>();
 
+    [SerializeField]
+    private NetworkVariable<bool> isJumping = new NetworkVariable<bool>();
+
     private Vector3 movement;
 
     // client caching
@@ -40,12 +43,6 @@ public class PlayerMovement2D : NetworkBehaviour
         {
             UpdateClient();
         }
-
-
-        /* Jump();
-        Rotate();   
-        movement = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
-        transform.position += movement * Time.deltaTime * moveSpeed;*/
     }
 
     private void Jump()
@@ -70,15 +67,21 @@ public class PlayerMovement2D : NetworkBehaviour
     {
         transform.position = new Vector2(transform.position.x + XYPosition.Value,
             transform.position.y);
+
+       // Debug.Log(isJumping.Value);
+        if (isJumping.Value)
+            gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpheight, ForceMode2D.Impulse);
     }
 
     private void UpdateClient()
     {
         float XY = 0;
+        bool jumping = false;
 
-        if (Input.GetButtonDown("Jump") && Mathf.Abs(gameObject.GetComponent<Rigidbody2D>().velocity.y) < 0.001f)
+        if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(gameObject.GetComponent<Rigidbody2D>().velocity.y) < 0.001f)
         {
-            //TODO JUMP ?
+            Debug.Log("jumping");
+            jumping = true;
         }
         if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.LeftArrow))
         {
@@ -89,19 +92,17 @@ public class PlayerMovement2D : NetworkBehaviour
             XY += moveSpeed;
         }
 
-        if (oldXYPosition != XY)
-        {
-            oldXYPosition = XY;
-            //update the server
-            UpdateClientPositionServerRPC(XY);
-        }
+        //update the server
+        UpdateClientPositionServerRPC(XY, jumping);
+        
 
 
     }
 
     [ServerRpc]
-    public void UpdateClientPositionServerRPC(float leftRight)
+    public void UpdateClientPositionServerRPC(float leftRight, bool jumping)
     {
         XYPosition.Value = leftRight;
+        isJumping.Value = jumping;
     }
 }
