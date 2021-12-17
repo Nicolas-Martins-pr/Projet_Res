@@ -49,23 +49,6 @@ public class PlayerMovement2D : NetworkBehaviour
         }
     }
 
-    private void Jump()
-    {
-        if (Input.GetButtonDown("Jump") && Mathf.Abs(gameObject.GetComponent<Rigidbody2D>().velocity.y) < 0.001f)
-        {
-            gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpheight, ForceMode2D.Impulse);
-        }
-    }
-
-    private void Rotate()
-    {
-        if (!Mathf.Approximately(0, movement.x))
-        {
-            transform.rotation = movement.x > 0 ? Quaternion.Euler(0, 180, 0) : Quaternion.identity;
-        }
-    }
-
-
 
     private void UpdateServer()
     {
