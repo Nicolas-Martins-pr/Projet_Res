@@ -60,7 +60,6 @@ public class PlayerMovement2D : NetworkBehaviour
         if(weapS.weap!=null && weapTrue == false)
         {
             weapO = weapS.weap;
-            //weapO.transform.GetComponent<SpriteRenderer>().flipX = flip.Value;
             weapTrue = true;
         }
 
