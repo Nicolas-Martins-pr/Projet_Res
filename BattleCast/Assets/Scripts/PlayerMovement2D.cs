@@ -23,17 +23,22 @@ public class PlayerMovement2D : NetworkBehaviour
 
     private Vector3 movement;
 
-    NetworkVariable<bool> flip=new NetworkVariable<bool>(false);
+    public NetworkVariable<bool> flip=new NetworkVariable<bool>(false);
 
-    
-
+    WeaponSelector weapS = null;
+    GameObject weapO = null;
+    bool weapTrue = false;
     // client caching
     private float oldXYPosition;
 
     // Start is called before the first frame update
+   
     private void Start()
     {
-        //transform.position = new Vector2(Random.Range(defaultPositionRange.x, defaultPositionRange.y), 0);
+        transform.position = new Vector2(Random.Range(defaultPositionRange.x, defaultPositionRange.y), 0);
+        weapS = this.GetComponent<WeaponSelector>();
+      
+
     }
 
     // Update is called once per frame
@@ -52,16 +57,27 @@ public class PlayerMovement2D : NetworkBehaviour
 
     private void UpdateServer()
     {
+        if(weapS.weap!=null && weapTrue == false)
+        {
+            weapO = weapS.weap;
+            //weapO.transform.GetComponent<SpriteRenderer>().flipX = flip.Value;
+            weapTrue = true;
+        }
+
         if (XYPosition.Value < 0 && flip.Value || XYPosition.Value > 0 && !flip.Value)
         {
-            transform.GetComponent<SpriteRenderer>().flipX=flip.Value;
+            transform.GetComponent<SpriteRenderer>().flipX = flip.Value;
+            if (weapO != null)
+                weapO.transform.GetComponent<SpriteRenderer>().flipX = flip.Value;
             flip.Value = !flip.Value;
         }
-          transform.position = new Vector2(transform.position.x + XYPosition.Value, transform.position.y);
+        transform.position = new Vector2(transform.position.x + XYPosition.Value, transform.position.y);
 
         // Debug.Log(isJumping.Value);
         if (isJumping.Value)
             gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpheight, ForceMode2D.Impulse);
+
+    
     }
 
     private void UpdateClient()
