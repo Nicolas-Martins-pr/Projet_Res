@@ -131,6 +131,11 @@ namespace UI
         public void OnLeaveClicked()
         {
             GameNetPortal.Instance.RequestDisconnect();
+
+            foreach(LobbyPlayerCard lobbyPlayerCard in lobbyPlayerCards)
+            {
+                lobbyPlayerCard.DisableDisplay();
+            }
         }
 
         public void OnReadyClicked()

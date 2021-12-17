@@ -57,6 +57,7 @@ namespace Networking
 
         public void StartClient()
         {
+            if (!NetworkManager.Singleton.StartClient()) { return; }
 
             var payload = JsonUtility.ToJson(new ConnectionPayload()
             {
@@ -64,17 +65,13 @@ namespace Networking
                 clientScene = SceneManager.GetActiveScene().buildIndex,
                 playerName = PlayerPrefs.GetString("PlayerName", "Missing Name")
 
-        });
-            //TODO
-            Debug.Log("Wring GUID : " + Guid.NewGuid().ToString());
+        }); 
             byte[] payloadBytes = Encoding.UTF8.GetBytes(payload);
 
             NetworkManager.Singleton.NetworkConfig.ConnectionData = payloadBytes;
 
-            NetworkManager.Singleton.StartClient();
+            //NetworkManager.Singleton.StartClient();
 
-            //TODO
-            Debug.Log("start client");
         }
 
         private void HandleNetworkReadied()
@@ -82,8 +79,6 @@ namespace Networking
 
             if (NetworkManager.Singleton.IsClient)
             {
-                //TODO
-                Debug.Log("si client");
                 gameNetPortal.OnUserDisconnectRequested += HandleUserDisconnectRequested;
             }
         }

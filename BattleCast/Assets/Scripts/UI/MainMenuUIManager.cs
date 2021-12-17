@@ -65,6 +65,13 @@ public class MainMenuUIManager : MonoBehaviour
         ClientGameNetPortal.Instance.StartClient();
         
     }
+    public void onCancelButtonClicked()
+    {
+        NetworkManager.Singleton.Shutdown();
+        startMenu.SetActive(true);
+        nameInputMenu.SetActive(false);
+    }
+
 
     public void onLaunchServerButtonClicked()
     {

@@ -49,6 +49,9 @@ namespace UI
         [SerializeField] private Image selectedCharacterImage;
         [SerializeField] private Toggle isReadyToggle;
 
+
+        [SerializeField] private Sprite playerCharacterSprite;
+
         public void UpdateDisplay(LobbyPlayerState lobbyPlayerState)
         {
             playerDisplayNameText.text = lobbyPlayerState.PlayerName.ToString();
@@ -56,12 +59,16 @@ namespace UI
 
             waitingForPlayerPanel.SetActive(false);
             playerDataPanel.SetActive(true);
+
+            selectedCharacterImage.sprite = playerCharacterSprite;
         }
 
         public void DisableDisplay()
         {
             waitingForPlayerPanel.SetActive(true);
             playerDataPanel.SetActive(false);
+
+            selectedCharacterImage.sprite = null;
         }
     }
 }
