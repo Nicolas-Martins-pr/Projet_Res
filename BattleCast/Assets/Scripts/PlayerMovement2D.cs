@@ -23,6 +23,10 @@ public class PlayerMovement2D : NetworkBehaviour
 
     private Vector3 movement;
 
+    NetworkVariable<bool> flip=new NetworkVariable<bool>(false);
+
+    
+
     // client caching
     private float oldXYPosition;
 
@@ -65,10 +69,14 @@ public class PlayerMovement2D : NetworkBehaviour
 
     private void UpdateServer()
     {
-        transform.position = new Vector2(transform.position.x + XYPosition.Value,
-            transform.position.y);
+        if (XYPosition.Value < 0 && flip.Value || XYPosition.Value > 0 && !flip.Value)
+        {
+            transform.GetComponent<SpriteRenderer>().flipX=flip.Value;
+            flip.Value = !flip.Value;
+        }
+          transform.position = new Vector2(transform.position.x + XYPosition.Value, transform.position.y);
 
-       // Debug.Log(isJumping.Value);
+        // Debug.Log(isJumping.Value);
         if (isJumping.Value)
             gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpheight, ForceMode2D.Impulse);
     }
@@ -91,8 +99,10 @@ public class PlayerMovement2D : NetworkBehaviour
         {
             XY += moveSpeed;
         }
+            
 
         //update the server
+        // if(jumping || XY !=oldXYPosition)
         UpdateClientPositionServerRPC(XY, jumping);
 
 
@@ -105,5 +115,6 @@ public class PlayerMovement2D : NetworkBehaviour
     {
         XYPosition.Value = leftRight;
         isJumping.Value = jumping;
+
     }
 }
