@@ -74,8 +74,6 @@ public class WeaponSelector : NetworkBehaviour
         float direction = player.flip.Value ? 1 : -1;
         angle_souris = Mathf.Atan2(direction*mouse_position.y,direction* mouse_position.x) * Mathf.Rad2Deg;
         UpdateClientWeaponServerRPC();
-        //mouse_distance = (mouse_position.y - transform.position.y) / (mouse_position.x - transform.position.x);
-       // angle = AngleBetweenTwoPoints(  , mouseOnScreen);
     }
 
 
@@ -95,8 +93,6 @@ public class WeaponSelector : NetworkBehaviour
     {
         Debug.Log("rpc");
         weaponCollide = collide;
-
-        
     }
     [ServerRpc]
     public void UpdateClientWeaponServerRPC()
@@ -107,11 +103,7 @@ public class WeaponSelector : NetworkBehaviour
             Debug.Log(pos.Value + "1");
             Debug.Log(angle_souris + "2");
         }
-    }
-    float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
-    {
-        return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
-    }
+    } 
 }
 
 

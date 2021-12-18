@@ -28,6 +28,7 @@ public class PlayerMovement2D : NetworkBehaviour
     WeaponSelector weapS = null;
     GameObject weapO = null;
     bool weapTrue = false;
+
     // client caching
     private float oldXYPosition;
 
