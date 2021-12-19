@@ -14,23 +14,17 @@ public class PlayerMovement2D : NetworkBehaviour
     [SerializeField]
     private Vector2 defaultPositionRange = new Vector2(-2, 2);
 
-
     [SerializeField]
     private NetworkVariable<float> XYPosition = new NetworkVariable<float>();
 
     [SerializeField]
     private NetworkVariable<bool> isJumping = new NetworkVariable<bool>();
 
-    private Vector3 movement;
-
     public NetworkVariable<bool> flip=new NetworkVariable<bool>(false);
 
     WeaponSelector weapS = null;
     GameObject weapO = null;
     bool weapTrue = false;
-
-    // client caching
-    private float oldXYPosition;
 
     // Start is called before the first frame update
    
@@ -81,6 +75,7 @@ public class PlayerMovement2D : NetworkBehaviour
 
     
     }
+
     [ClientRpc]
     public void UpdateClientFlipClientRPC(bool value)
     {

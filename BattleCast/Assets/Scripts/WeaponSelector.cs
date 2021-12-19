@@ -46,7 +46,16 @@ public class WeaponSelector : NetworkBehaviour
     {
         if (weaponCollide != null)
         {
+
+            if (weap != null)
+            {
+                Destroy(weap.gameObject);
+            }
+
             weap = GameObject.Find(weaponCollide);
+
+            UpdateClientWeaponClientRPC(weaponCollide);
+
             weap.transform.SetParent(this.transform, this.transform);
             weap.GetComponent<BoxCollider2D>().enabled = false;
 
@@ -75,13 +84,20 @@ public class WeaponSelector : NetworkBehaviour
         weap.GetComponent<SpriteRenderer>().flipX = value;
     }
 
+    [ClientRpc]
+    public void UpdateClientWeaponClientRPC(string value)
+    {
+        weap = GameObject.Find(value);
+    }
+
 
     private void UpdateClient()
     {
         mouse_position = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float direction = player.flip.Value ? 1 : -1;
         angle_souris = Mathf.Atan2(direction*mouse_position.y,direction* mouse_position.x) * Mathf.Rad2Deg;
-        UpdateClientWeaponServerRPC(angle_souris);
+        if (IsOwner)
+            UpdateClientWeaponServerRPC(angle_souris);
     }
 
 
