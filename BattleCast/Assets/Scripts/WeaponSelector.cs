@@ -46,7 +46,7 @@ public class WeaponSelector : NetworkBehaviour
     {
         if (weaponCollide != null)
         {
-
+            Debug.Log("WeaponCollide != null");
             weap = GameObject.Find(weaponCollide);
             weap.transform.SetParent(this.transform, this.transform);
             weap.GetComponent<BoxCollider2D>().enabled = false;
@@ -73,7 +73,7 @@ public class WeaponSelector : NetworkBehaviour
         mouse_position = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float direction = player.flip.Value ? 1 : -1;
         angle_souris = Mathf.Atan2(direction*mouse_position.y,direction* mouse_position.x) * Mathf.Rad2Deg;
-        UpdateClientWeaponServerRPC();
+        UpdateClientWeaponServerRPC(angle_souris);
     }
 
 
@@ -81,26 +81,19 @@ public class WeaponSelector : NetworkBehaviour
     {
         if (collision.gameObject.tag == "Weapon")
         {
-            UpdateClientWeaponServerRPC(collision.gameObject.name);
+            weaponCollide = collision.gameObject.name;
         }
         
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void UpdateClientWeaponServerRPC(string collide)
-    {
-        Debug.Log("rpc");
-        weaponCollide = collide;
-    }
-
-    [ServerRpc (RequireOwnership = false)]
-    public void UpdateClientWeaponServerRPC()
+    [ServerRpc]
+    public void UpdateClientWeaponServerRPC(float newMouseAngle)
     {
         if (weap != null)
         {
-            pos.Value = angle_souris;
-            Debug.Log(pos.Value + "1");
-            Debug.Log(angle_souris + "2");
+            pos.Value = newMouseAngle;
+            Debug.Log(pos.Value + " 1");
+            Debug.Log(newMouseAngle + " 2");
         }
     } 
 }
