@@ -29,7 +29,7 @@ public class PlayerMovement2D : NetworkBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        transform.position = new Vector2(Random.Range(defaultPositionRange.x, defaultPositionRange.y), 0);
+        //transform.position = new Vector2(Random.Range(defaultPositionRange.x, defaultPositionRange.y), 0);
     }
 
     // Update is called once per frame
@@ -94,12 +94,13 @@ public class PlayerMovement2D : NetworkBehaviour
 
         //update the server
         UpdateClientPositionServerRPC(XY, jumping);
-        
+
 
 
     }
 
-    [ServerRpc]
+
+    [ServerRpc(RequireOwnership = true)]
     public void UpdateClientPositionServerRPC(float leftRight, bool jumping)
     {
         XYPosition.Value = leftRight;
