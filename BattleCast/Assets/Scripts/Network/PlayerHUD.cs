@@ -30,15 +30,12 @@ public class PlayerHUD : NetworkBehaviour
     
     public void SetOverlay()
     {
-        Debug.Log("Overlay");
         var localPlayerOverlay = gameObject.GetComponentInChildren<TextMeshProUGUI>();
         localPlayerOverlay.text = playersName.Value;
     }
 
     private void Update()
     {
-
-        Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         if (!overlaySet && !string.IsNullOrEmpty(playersName.Value))
         {
             SetOverlay();

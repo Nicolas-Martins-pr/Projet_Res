@@ -73,7 +73,8 @@ public class WeaponSelector : NetworkBehaviour
         mouse_position = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float direction = player.flip.Value ? 1 : -1;
         angle_souris = Mathf.Atan2(direction*mouse_position.y,direction* mouse_position.x) * Mathf.Rad2Deg;
-        UpdateClientWeaponServerRPC();
+        if (IsOwner)
+            UpdateClientWeaponServerRPC();
     }
 
 
@@ -84,17 +85,19 @@ public class WeaponSelector : NetworkBehaviour
         if (collision.gameObject.tag == "Weapon")
         {
             Debug.Log("collision");
-            UpdateClientWeaponServerRPC(collision.gameObject.name);
+            if (IsOwner)
+                UpdateClientWeaponServerRPC(collision.gameObject.name);
         }
         
     }
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = true)]
     public void UpdateClientWeaponServerRPC(string collide)
     {
         Debug.Log("rpc");
         weaponCollide = collide;
     }
-    [ServerRpc]
+
+    [ServerRpc (RequireOwnership = true)]
     public void UpdateClientWeaponServerRPC()
     {
         if (weap != null)

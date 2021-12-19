@@ -66,7 +66,6 @@ namespace Networking
         public PlayerData? GetPlayerData(ulong clientId)
         {
 
-            Debug.Log("Get Player Data + zie of clientIdToGUId : " + clientIdToGuid.Values.Count);
             //TODO foreach
 
             if (clientIdToGuid.TryGetValue(clientId, out string clientGuid))

@@ -87,7 +87,6 @@ public class PlayerMovement2D : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(gameObject.GetComponent<Rigidbody2D>().velocity.y) < 0.001f)
         {
-            Debug.Log("jumping");
             jumping = true;
         }
         if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.LeftArrow))
