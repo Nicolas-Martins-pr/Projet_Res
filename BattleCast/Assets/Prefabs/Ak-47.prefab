@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1280419323274905395}
   - component: {fileID: 971337143466038748}
   - component: {fileID: 6962396854505019196}
+  - component: {fileID: 1113899240403887423}
   m_Layer: 0
   m_Name: Ak-47
   m_TagString: Weapon
@@ -126,3 +127,15 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &1113899240403887423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635763896197799465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af79662504ca95418f15e98de8feb5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -10,7 +10,7 @@ using UnityEngine;
 public class WeaponSelector : NetworkBehaviour
 {
 
-     string weaponCollide;
+    string weaponCollide;
     PlayerMovement2D player = null;
     public GameObject weap = null;
     bool rightPos = false;
@@ -73,20 +73,18 @@ public class WeaponSelector : NetworkBehaviour
         mouse_position = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float direction = player.flip.Value ? 1 : -1;
         angle_souris = Mathf.Atan2(direction*mouse_position.y,direction* mouse_position.x) * Mathf.Rad2Deg;
-        if (IsOwner)
-            UpdateClientWeaponServerRPC();
+        UpdateClientWeaponServerRPC();
     }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision0");
+        Debug.Log("Collision");
         Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.tag == "Weapon")
         {
             Debug.Log("collision");
-            if (IsOwner)
-                UpdateClientWeaponServerRPC(collision.gameObject.name);
+            UpdateClientWeaponServerRPC(collision.gameObject.name);
         }
         
     }
