@@ -67,14 +67,7 @@ namespace Networking
         {
 
             Debug.Log("Get Player Data + zie of clientIdToGUId : " + clientIdToGuid.Values.Count);
-            //TODO
-            foreach (KeyValuePair<ulong, string> p in clientIdToGuid)
-            {
-                Debug.Log(p.Key);
-                Debug.Log(p.Value);
-            }
-             
-
+            //TODO foreach
 
             if (clientIdToGuid.TryGetValue(clientId, out string clientGuid))
             {

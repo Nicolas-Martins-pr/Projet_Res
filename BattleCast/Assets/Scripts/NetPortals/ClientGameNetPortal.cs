@@ -97,9 +97,6 @@ namespace Networking
         private void HandleConnectionFinished(ConnectStatus status)
         {
 
-            //TODO
-            Debug.Log("connexion terminée");
-
             if (status != ConnectStatus.Success)
             {
                 DisconnectReason.SetDisconnectReason(status);
