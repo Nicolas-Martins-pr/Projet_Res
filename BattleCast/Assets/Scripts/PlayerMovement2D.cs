@@ -92,10 +92,11 @@ public class PlayerMovement2D : NetworkBehaviour
             XY += moveSpeed;
         }
 
-        //update the server
-        UpdateClientPositionServerRPC(XY, jumping);
-
-
+        if (IsOwner)
+        {
+            //update the server
+            UpdateClientPositionServerRPC(XY, jumping);
+        }
 
     }
 
