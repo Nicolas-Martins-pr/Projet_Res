@@ -79,23 +79,21 @@ public class WeaponSelector : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision");
-        Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.tag == "Weapon")
         {
-            Debug.Log("collision");
             UpdateClientWeaponServerRPC(collision.gameObject.name);
         }
         
     }
-    [ServerRpc(RequireOwnership = true)]
+
+    [ServerRpc(RequireOwnership = false)]
     public void UpdateClientWeaponServerRPC(string collide)
     {
         Debug.Log("rpc");
         weaponCollide = collide;
     }
 
-    [ServerRpc (RequireOwnership = true)]
+    [ServerRpc (RequireOwnership = false)]
     public void UpdateClientWeaponServerRPC()
     {
         if (weap != null)

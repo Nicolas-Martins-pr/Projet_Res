@@ -78,9 +78,9 @@ public class PlayerMovement2D : NetworkBehaviour
         }
         transform.position = new Vector2(transform.position.x + XYPosition.Value, transform.position.y);
 
-        // Debug.Log(isJumping.Value);
         if (isJumping.Value)
-            gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpheight, ForceMode2D.Impulse);
+            gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(gameObject.GetComponent<Rigidbody2D>().velocity.x,jumpheight);
+            //gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpheight, ForceMode2D.Impulse);
 
     
     }

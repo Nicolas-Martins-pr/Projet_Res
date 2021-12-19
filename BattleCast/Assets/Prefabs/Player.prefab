@@ -217,6 +217,8 @@ MonoBehaviour:
     m_InternalValue: 0
   isJumping:
     m_InternalValue: 0
+  flip:
+    m_InternalValue: 0
 --- !u!50 &7547613727170272170
 Rigidbody2D:
   serializedVersion: 4
@@ -250,6 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9fbaadb534b9142b94a10b85bbd37c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weap: {fileID: 0}
 --- !u!1 &2131356613796844434
 GameObject:
   m_ObjectHideFlags: 0
