@@ -41,6 +41,7 @@ public class HealthManager : NetworkBehaviour
                 Destroy(gameObject);
             }
             health.Value -= damage.Value;
+            damage.Value = 0;
         }
     }
 
