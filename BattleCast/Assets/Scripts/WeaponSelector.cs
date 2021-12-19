@@ -64,12 +64,11 @@ public class WeaponSelector : NetworkBehaviour
         if (weap != null && player.flip.Value != playerFlipSave)
         {
             weap.GetComponent<SpriteRenderer>().flipX = playerFlipSave;
-            playerFlipSave = player.flip.Value;
-
             UpdateWeaponFlipClientRPC(playerFlipSave);
-
+            playerFlipSave = player.flip.Value;
             float direction = player.flip.Value ? 1 : -1;
             weap.transform.localPosition = new Vector2(direction * 0.2f, -0.25f);
+            
         }
         if (weap != null && pos != null) {
             
@@ -82,6 +81,8 @@ public class WeaponSelector : NetworkBehaviour
     public void UpdateWeaponFlipClientRPC(bool value)
     {
         weap.GetComponent<SpriteRenderer>().flipX = value;
+        float direction = value ? 1 : -1;
+        weap.transform.localPosition = new Vector2(direction * 0.2f, -0.25f);
     }
 
     [ClientRpc]
