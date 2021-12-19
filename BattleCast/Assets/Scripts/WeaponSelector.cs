@@ -46,7 +46,6 @@ public class WeaponSelector : NetworkBehaviour
     {
         if (weaponCollide != null)
         {
-            Debug.Log("WeaponCollide != null");
             weap = GameObject.Find(weaponCollide);
             weap.transform.SetParent(this.transform, this.transform);
             weap.GetComponent<BoxCollider2D>().enabled = false;
@@ -58,6 +57,8 @@ public class WeaponSelector : NetworkBehaviour
             weap.GetComponent<SpriteRenderer>().flipX = playerFlipSave;
             playerFlipSave = player.flip.Value;
 
+            UpdateWeaponFlipClientRPC(playerFlipSave);
+
             float direction = player.flip.Value ? 1 : -1;
             weap.transform.localPosition = new Vector2(direction * 0.2f, -0.25f);
         }
@@ -67,6 +68,13 @@ public class WeaponSelector : NetworkBehaviour
 
         }
     }
+
+    [ClientRpc]
+    public void UpdateWeaponFlipClientRPC(bool value)
+    {
+        weap.GetComponent<SpriteRenderer>().flipX = value;
+    }
+
 
     private void UpdateClient()
     {
@@ -92,8 +100,6 @@ public class WeaponSelector : NetworkBehaviour
         if (weap != null)
         {
             pos.Value = newMouseAngle;
-            Debug.Log(pos.Value + " 1");
-            Debug.Log(newMouseAngle + " 2");
         }
     } 
 }

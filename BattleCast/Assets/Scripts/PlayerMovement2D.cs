@@ -67,10 +67,7 @@ public class PlayerMovement2D : NetworkBehaviour
         if (XYPosition.Value < 0 && flip.Value || XYPosition.Value > 0 && !flip.Value)
         {
             transform.GetComponent<SpriteRenderer>().flipX = flip.Value;
-
-            if (weapO != null)
-                weapO.transform.GetComponent<SpriteRenderer>().flipX = flip.Value;
-
+            
             UpdateClientFlipClientRPC(flip.Value);
 
             flip.Value = !flip.Value;
@@ -88,8 +85,6 @@ public class PlayerMovement2D : NetworkBehaviour
     public void UpdateClientFlipClientRPC(bool value)
     {
         transform.GetComponent<SpriteRenderer>().flipX = value;
-        if (weapO != null)
-            weapO.transform.GetComponent<SpriteRenderer>().flipX = value;
     }
 
     private void UpdateClient()
