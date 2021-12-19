@@ -6,29 +6,7 @@ using Unity.Netcode;
 public class UIManager : NetworkBehaviour
 {
 
-    [SerializeField]
-    private GameObject gameDataController;
 
-    [SerializeField]
-    private GameObject startMenu;
-
-    [SerializeField]
-    private GameObject lobbyMenu;
-
-    [SerializeField]
-    private Button startServerButton;
-
-    [SerializeField]
-    private Button startHostButton;
-
-    [SerializeField]
-    private Button startClientButton;
-
-    [SerializeField]
-    private Button startGameButton;
-
-    [SerializeField]
-    private Button exitGameButton;
 
     [SerializeField]
     private TextMeshProUGUI playersInGameText;

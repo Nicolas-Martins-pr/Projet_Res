@@ -89,7 +89,6 @@ namespace Networking
         private void HandleNetworkReady()
         {
 
-            Debug.Log("handlenetworkready");
 
             //if (NetworkManager.Singleton.IsServer)
 

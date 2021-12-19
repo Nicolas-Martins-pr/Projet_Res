@@ -58,6 +58,8 @@ namespace Networking
         public void StartClient()
         {
             if (!NetworkManager.Singleton.StartClient()) { return; }
+            
+
 
             var payload = JsonUtility.ToJson(new ConnectionPayload()
             {
@@ -70,7 +72,6 @@ namespace Networking
 
             NetworkManager.Singleton.NetworkConfig.ConnectionData = payloadBytes;
 
-            //NetworkManager.Singleton.StartClient();
 
         }
 
@@ -97,7 +98,7 @@ namespace Networking
         {
 
             //TODO
-            Debug.Log("connexion finie");
+            Debug.Log("connexion terminée");
 
             if (status != ConnectStatus.Success)
             {

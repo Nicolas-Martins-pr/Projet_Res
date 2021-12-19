@@ -99,7 +99,22 @@ namespace Networking
         {
             gameInProgress = true;
 
+            //keep the players through the scenes (to avoid reloading bug with networkManager)
+            GameObject[] playerList = GameObject.FindGameObjectsWithTag("Player");
+            
+
+            foreach (GameObject player in playerList)
+            {
+                DontDestroyOnLoad(player);
+                //Free the players constraints
+                player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+            }
+
+            
             NetworkManager.Singleton.SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+
+
+
         }
 
         public void EndRound()
@@ -182,9 +197,7 @@ namespace Networking
 
         private void ApprovalCheck(byte[] connectionData, ulong clientId, NetworkManager.ConnectionApprovedDelegate callback)
         {
-
-            //TODO
-            Debug.Log("APProval check");
+            
             if (connectionData.Length > MaxConnectionPayload)
             {
                 callback(false, 0, false, null, null);
@@ -219,7 +232,18 @@ namespace Networking
                 clientData[connectionPayload.clientGUID] = new PlayerData(connectionPayload.playerName, clientId);
             }
 
-            callback(false, 0, true, null, null);
+            //callback(false, 0, true, null, null);
+
+            //Spawning player
+            callback(true, null, true, null, null);
+
+            //Deactivating Player
+            GameObject[] playerList = GameObject.FindGameObjectsWithTag("Player");
+
+            foreach (GameObject player in playerList)
+            {
+                player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            }
 
             gameNetPortal.ServerToClientConnectResult(clientId, gameReturnStatus);
 
@@ -227,7 +251,6 @@ namespace Networking
             {
                 StartCoroutine(WaitToDisconnectClient(clientId, gameReturnStatus));
             }
-
         }
 
         private IEnumerator WaitToDisconnectClient(ulong clientId, ConnectStatus reason)

@@ -22,16 +22,17 @@ public class GameDataController : NetworkBehaviour
 
     private int weaponsSpawned = 0;
 
-    public void StartGame()
+    private void Start()
     {
-        //instanciate enemy
-        GameObject enemy = Instantiate(enemyPrefab, enemySpawnPoint.position, Quaternion.identity);
-        enemy.GetComponent<NetworkObject>().Spawn();
-        //Make it move / attack
-       
+        if (IsServer && IsOwner)
+        {
+            GameObject enemy = Instantiate(enemyPrefab, enemySpawnPoint.position, Quaternion.identity);
+            enemy.GetComponent<NetworkObject>().Spawn();
 
-        StartCoroutine(WeaponsSpawner());
+            StartCoroutine(WeaponsSpawner());
+        }
     }
+
 
     IEnumerator WeaponsSpawner()
     {
