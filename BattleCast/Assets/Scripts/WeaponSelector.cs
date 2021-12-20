@@ -15,7 +15,7 @@ public class WeaponSelector : NetworkBehaviour
     public GameObject weap = null;
     bool playerFlipSave = true;
     NetworkVariable<float> pos;
-    NetworkVariable<Vector2> mPose=null;
+    NetworkVariable<Vector3> mPose = new NetworkVariable<Vector3>();
     Vector3 mouse_position;
     float angle_souris;
     NetworkVariable<bool> has_shot= new NetworkVariable<bool>(false);
@@ -40,8 +40,6 @@ public class WeaponSelector : NetworkBehaviour
         }
 
     }
-
-
     private void UpdateServer()
     {
         if (weaponCollide != null)
@@ -78,33 +76,32 @@ public class WeaponSelector : NetworkBehaviour
 
         }
         if (has_shot.Value != false && mPose.Value!=null )
-        {
-            Debug.Log("nikoumouk");
+        {       
             GameObject shot;
            // float direction = player.flip.Value ? 1 : -1;
-            shot = Instantiate(douille,new Vector2(weap.transform.position.x+2, weap.transform.position.y),weap.transform.rotation);
-            shot.GetComponent<Rigidbody2D>().AddForce(mPose.Value*10,ForceMode2D.Force);
+            shot = Instantiate(douille,new Vector2(weap.transform.position.x, weap.transform.position.y),weap.transform.rotation);
+            shot.GetComponent<Rigidbody2D>().AddForce(mPose.Value.normalized*1000);
             UpdateClientShotClientRPC();
             has_shot.Value = false;
         }
     }
-
     private void UpdateClient()
     {
         mouse_position = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float direction = player.flip.Value ? 1 : -1;
         angle_souris = Mathf.Atan2(direction * mouse_position.y, direction * mouse_position.x) * Mathf.Rad2Deg;
-        Vector2 test = mouse_position;
+        if (angle_souris > 45)
+            angle_souris = 45;
+        else if (angle_souris < -45)
+            angle_souris = -45;
+       
         if (IsOwner)
             UpdateClientWeaponServerRPC(angle_souris);
         if (Input.GetMouseButtonDown(0) && weap != null)
         {
-            UpdateClientShotServerRPC();
-            
+            UpdateClientShotServerRPC(mouse_position);   
         }
-
     }
-
 
     [ClientRpc]
     public void UpdateWeaponRotateClientRPC(float val )
@@ -127,18 +124,17 @@ public class WeaponSelector : NetworkBehaviour
 
 
     [ServerRpc]
-    public void UpdateClientShotServerRPC()
+    public void UpdateClientShotServerRPC(Vector3 value)
     {
-        Debug.Log(has_shot.Value);
         has_shot.Value = true;
-        mPose.Value=mouse_position;
+        mPose.Value=value;
     }
     [ClientRpc]
     public void UpdateClientShotClientRPC()
     {
-        GameObject shot;
-        shot = Instantiate(douille, this.transform.position, transform.rotation);
-        shot.GetComponent<Rigidbody2D>().AddForce(mPose.Value * 2,ForceMode2D.Impulse);
+        GameObject test;
+        test = Instantiate(douille, new Vector2(weap.transform.position.x , weap.transform.position.y), weap.transform.rotation);
+        test.GetComponent<Rigidbody2D>().AddRelativeForce(mPose.Value.normalized * 1000);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
