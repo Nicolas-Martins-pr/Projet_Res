@@ -18,7 +18,7 @@ public class WeaponSelector : NetworkBehaviour
     NetworkVariable<Vector2> mPose=null;
     Vector3 mouse_position;
     float angle_souris;
-    NetworkVariable<bool> has_shot=null;
+    NetworkVariable<bool> has_shot= new NetworkVariable<bool>(false);
     [SerializeField] GameObject douille;
     // Start is called before the first frame update
     void Start()
@@ -77,13 +77,15 @@ public class WeaponSelector : NetworkBehaviour
             UpdateWeaponRotateClientRPC(pos.Value);
 
         }
-        if (has_shot != null && mPose.Value!=null )
+        if (has_shot.Value != false && mPose.Value!=null )
         {
+            Debug.Log("nikoumouk");
             GameObject shot;
-            shot = Instantiate(douille,this.transform.position,transform.rotation);
-            shot.GetComponent<Rigidbody2D>().AddForce(mPose.Value*2);
+           // float direction = player.flip.Value ? 1 : -1;
+            shot = Instantiate(douille,new Vector2(weap.transform.position.x+2, weap.transform.position.y),weap.transform.rotation);
+            shot.GetComponent<Rigidbody2D>().AddForce(mPose.Value*10,ForceMode2D.Force);
             UpdateClientShotClientRPC();
-            has_shot = null;
+            has_shot.Value = false;
         }
     }
 
@@ -95,8 +97,11 @@ public class WeaponSelector : NetworkBehaviour
         Vector2 test = mouse_position;
         if (IsOwner)
             UpdateClientWeaponServerRPC(angle_souris);
-        if (Input.GetMouseButtonDown(0) && weap != null && IsOwner)
+        if (Input.GetMouseButtonDown(0) && weap != null)
+        {
             UpdateClientShotServerRPC();
+            
+        }
 
     }
 
@@ -122,17 +127,18 @@ public class WeaponSelector : NetworkBehaviour
 
 
     [ServerRpc]
-    private void UpdateClientShotServerRPC( )
+    public void UpdateClientShotServerRPC()
     {
+        Debug.Log(has_shot.Value);
         has_shot.Value = true;
         mPose.Value=mouse_position;
     }
     [ClientRpc]
-    private void UpdateClientShotClientRPC()
+    public void UpdateClientShotClientRPC()
     {
         GameObject shot;
         shot = Instantiate(douille, this.transform.position, transform.rotation);
-        shot.GetComponent<Rigidbody2D>().AddForce(mPose.Value * 2);
+        shot.GetComponent<Rigidbody2D>().AddForce(mPose.Value * 2,ForceMode2D.Impulse);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
