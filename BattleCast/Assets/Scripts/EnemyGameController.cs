@@ -41,7 +41,7 @@ public class EnemyGameController : NetworkBehaviour
     void Update()
     {
         //TO remove
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.M) && IsServer)
             DamageEnemy(10);
 
         if (IsServer)
@@ -57,7 +57,10 @@ public class EnemyGameController : NetworkBehaviour
                     transform.eulerAngles = new Vector3(0, -180, 0);
 
                     var rotationVector = healthBar.gameObject.transform.rotation.eulerAngles;
-                    rotationVector.z = 180;
+                    rotationVector.z = -180;
+                    rotationVector.x = 0;
+                    rotationVector.y = 0;
+                    healthBar.gameObject.transform.rotation = Quaternion.Euler(rotationVector);
                     UpdateEnemyHPBarRotationClientRPC(rotationVector);
                     movingRight = false;
                 }
@@ -67,17 +70,20 @@ public class EnemyGameController : NetworkBehaviour
 
                     var rotationVector = healthBar.gameObject.transform.rotation.eulerAngles;
                     rotationVector.z = 0;
+                    rotationVector.x = 0;
+                    rotationVector.y = 0;
+                    healthBar.gameObject.transform.rotation = Quaternion.Euler(rotationVector);
                     UpdateEnemyHPBarRotationClientRPC(rotationVector);
                     movingRight = true;
                 }
             }
-        }
 
+            //handles the slider bug
+            if (currentEnemyHP.Value <= 7)
+            {
+                GameObject.Find("GameController").GetComponent<GameDataController>().EndGame();
+            }
 
-        //handles the slider bug
-        if (currentEnemyHP.Value <= 7)
-        {
-            EndGame();
         }
     }
     public void DamageEnemy(int damageTaken)
@@ -96,6 +102,7 @@ public class EnemyGameController : NetworkBehaviour
     [ClientRpc]
     public void UpdateEnemyHPBarRotationClientRPC(Vector3 newRotation)
     {
+        //healthBar.gameObject.transform.rotation.Set(0, 0, newRotation,0);
         healthBar.gameObject.transform.rotation = Quaternion.Euler(newRotation);
     }
 
@@ -106,9 +113,4 @@ public class EnemyGameController : NetworkBehaviour
         healthBar.value = newHP;
     }
 
-    private void EndGame()
-    {
-        //TODO
-        //endgame here
-    }
 }

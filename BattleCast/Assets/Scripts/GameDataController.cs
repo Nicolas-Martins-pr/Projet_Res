@@ -20,6 +20,9 @@ public class GameDataController : NetworkBehaviour
     [SerializeField]
     private GameObject weaponsSpawnPoints;
 
+    [SerializeField]
+    private UnityEngine.UI.Text endGameText;
+
     private int weaponsSpawned = 0;
 
     private void Start()
@@ -49,5 +52,47 @@ public class GameDataController : NetworkBehaviour
             StartCoroutine(WeaponsSpawner());
         }
 
+    }
+
+
+
+    public void EndGame()
+    {
+        endGameText.gameObject.SetActive(true);
+
+        //COMPARER LES SCORES
+        endGameText.text = "Le gagnant est : " ;
+
+        UpdateEndGameTextClientRPC(endGameText.text);
+        StartCoroutine(WaitAndEndGame());
+    }
+
+    [ClientRpc]
+    public void UpdateEndGameTextClientRPC(string endGameMessage)
+    {
+
+        endGameText.gameObject.SetActive(true);
+        endGameText.text = endGameMessage;
+    }
+
+
+    IEnumerator WaitAndEndGame()
+    {
+        //yield on a new YieldInstruction that waits for 5 seconds.
+        yield return new WaitForSeconds(3);
+
+        EndGameClientRPC();
+
+        //yield on a new YieldInstruction that waits for 3 seconds.
+        yield return new WaitForSeconds(2);
+
+        Application.Quit();
+
+    }
+
+    [ClientRpc]
+    public void EndGameClientRPC()
+    {
+        Application.Quit();
     }
 }
