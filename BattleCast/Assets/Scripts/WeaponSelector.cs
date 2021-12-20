@@ -50,6 +50,7 @@ public class WeaponSelector : NetworkBehaviour
             if (weap != null)
             {
                 Destroy(weap.gameObject);
+                Debug.Log(weap);
             }
 
             weap = GameObject.Find(weaponCollide);
@@ -73,10 +74,16 @@ public class WeaponSelector : NetworkBehaviour
         if (weap != null && pos != null) {
             
             weap.transform.rotation = Quaternion.Euler(new Vector3(0F, 0F, pos.Value));
+            UpdateWeaponRotateClientRPC(pos.Value);
 
         }
     }
 
+    [ClientRpc]
+    public void UpdateWeaponRotateClientRPC(float val )
+    {
+        weap.transform.rotation = Quaternion.Euler(new Vector3(0F, 0F, val));
+    }
     [ClientRpc]
     public void UpdateWeaponFlipClientRPC(bool value)
     {
