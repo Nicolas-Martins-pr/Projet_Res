@@ -253,6 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weap: {fileID: 0}
+  douille: {fileID: 3077686397046055715, guid: 20ca7d6c5bf4daf469cdb5d52b15c621, type: 3}
 --- !u!1 &2131356613796844434
 GameObject:
   m_ObjectHideFlags: 0

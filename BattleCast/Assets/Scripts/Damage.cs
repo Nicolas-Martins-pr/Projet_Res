@@ -18,13 +18,16 @@ public class Damage : NetworkBehaviour
     {
         
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void onTriggerEnter2d(Collision2D collision)
     {
         if (collision.gameObject.tag == "ennemy")
         {
             hM = collision.gameObject.GetComponent<HealthManager>();
             hM.HealthDamage(5);
+            Destroy(this);
         }
+        else if (collision.gameObject.tag == "ground")
+            Destroy(this);
 
     }
 }
