@@ -32,8 +32,6 @@ public class PlayerMovement2D : NetworkBehaviour
     {
         transform.position = new Vector2(Random.Range(defaultPositionRange.x, defaultPositionRange.y), 0);
         weapS = this.GetComponent<WeaponSelector>();
-      
-
     }
 
     // Update is called once per frame

@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -6527538468624087928}
   m_Layer: 0
   m_Name: Douille
-  m_TagString: Munition
+  m_TagString: Ammo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -7,7 +7,7 @@ TagManager:
   - TutorialRequirement
   - Ground
   - Weapon
-  - Munition
+  - Ammo
   layers:
   - Default
   - TransparentFX
