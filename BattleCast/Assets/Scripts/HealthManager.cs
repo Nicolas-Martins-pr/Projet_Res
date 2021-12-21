@@ -36,12 +36,13 @@ public class HealthManager : NetworkBehaviour
     {
         if (damage != null)
         {
+            health.Value -= damage.Value;
+            damage.Value = 0;
             if (health.Value <= 0)
             {
                 Destroy(gameObject);
             }
-            health.Value -= damage.Value;
-            damage.Value = 0;
+           
         }
     }
 

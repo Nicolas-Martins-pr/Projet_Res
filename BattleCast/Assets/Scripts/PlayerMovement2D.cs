@@ -20,7 +20,7 @@ public class PlayerMovement2D : NetworkBehaviour
     [SerializeField]
     private NetworkVariable<bool> isJumping = new NetworkVariable<bool>();
 
-    public NetworkVariable<bool> flip=new NetworkVariable<bool>(false);
+    public NetworkVariable<bool> flip=new NetworkVariable<bool>();
 
     WeaponSelector weapS = null;
     GameObject weapO = null;

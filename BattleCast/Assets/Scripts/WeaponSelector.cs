@@ -134,7 +134,7 @@ public class WeaponSelector : NetworkBehaviour
     {
         GameObject test;
         test = Instantiate(douille, new Vector2(weap.transform.position.x , weap.transform.position.y), weap.transform.rotation);
-        test.GetComponent<Rigidbody2D>().AddRelativeForce(mPose.Value.normalized * 1000);
+        test.GetComponent<Rigidbody2D>().AddForce(mPose.Value.normalized * 1000);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

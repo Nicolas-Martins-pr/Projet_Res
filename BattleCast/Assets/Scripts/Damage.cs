@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Netcode; 
-
+using Unity.Netcode;
+using System;
 
 public class Damage : NetworkBehaviour
 {
-    HealthManager hM=null;
+    NetworkVariable<bool> collide=new NetworkVariable<bool>(false);
+    NetworkVariable<int> enTag = new NetworkVariable<int>();
+    GameObject coll;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,16 +20,23 @@ public class Damage : NetworkBehaviour
     {
         
     }
-    private void onTriggerEnter2d(Collision2D collision)
+
+    
+    
+        void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "ennemy")
+
+        if (collision.gameObject.tag == "Ennemy")
         {
-            hM = collision.gameObject.GetComponent<HealthManager>();
-            hM.HealthDamage(5);
-            Destroy(this);
+            EnemyGameController en = collision.gameObject.GetComponent<EnemyGameController>();
+            en.DamageEnemy(5);
+            Destroy(gameObject);
+
         }
-        else if (collision.gameObject.tag == "ground")
-            Destroy(this);
+        else if (collision.gameObject.tag == "Ground")
+            Destroy(gameObject);
 
     }
+
+    
 }

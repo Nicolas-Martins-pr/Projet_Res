@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Weapon
   - Ammo
+  - Ennemy
   layers:
   - Default
   - TransparentFX
